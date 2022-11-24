@@ -27,18 +27,18 @@ public class DataProcessor<T extends Movies> {
                 .toList();
     }
 
-    public String searchMark(int mark) throws Exception {
+    public FilterFilms searchMark(int mark) throws Exception {
         if (mark < 0) {
             throw new MyException("Оценка меньше 0");
         }
         Optional<T> filmOptional = films.stream()
-                .filter(films -> films.getMark() == mark)
+                .filter(film -> film.getMark() == mark)
                 .findFirst();
 
         if (filmOptional.isPresent()) {
-            return filmOptional.get().getInfo();
+            return new FilterFilms(filmOptional.get().getName(), filmOptional.get().getMark());
         } else {
-            return "Нет данных";
+            throw new MyException("Нет данных");
         }
     }
 }

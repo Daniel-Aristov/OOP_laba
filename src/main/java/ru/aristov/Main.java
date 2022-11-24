@@ -26,17 +26,16 @@ public class Main {
         );
 
         List<Media> media = Stream.concat(movies.stream(), books.stream()).toList();
-        Statistic.statisticMedia(media);
-        System.out.println("===============================");
 
-        /* Рейтинг фильмов. Необходимо вывести фильмы, чья оценка больше или равна 3, но меньше 5,
-           отсортированный по увеличению оценки с максимумом в 3 элемента. Сделать поиск по оценке. */
+        filterWorkWithFilm(movies, 3,5,4);
+        searchOnMark(movies, 3);
+    }
 
+    public static void filterWorkWithFilm (List movies, int markMore, int markLess, int limitObject) {
         DataProcessor<Film> dataProcessor = new DataProcessor(movies);
-
         System.out.println();
         try {
-            List<FilterFilms> filterFilms = dataProcessor.getFilterFilms(3, 5, 3);
+            List<FilterFilms> filterFilms = dataProcessor.getFilterFilms(markMore, markLess, limitObject);
             if (filterFilms.isEmpty()) {
                 System.out.println("Нет данных");
             } else {
@@ -47,11 +46,14 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public static void searchOnMark (List movies, int mark) {
+        DataProcessor<Film> dataProcessor = new DataProcessor(movies);
         System.out.println();
-        System.out.println("Поиск фильма по оценке:");
+        System.out.println("Поиск фильма по оценке " + mark + ":");
         try {
-            System.out.println(dataProcessor.searchMark(3));
+            System.out.println(dataProcessor.searchMark(mark).getInfo());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

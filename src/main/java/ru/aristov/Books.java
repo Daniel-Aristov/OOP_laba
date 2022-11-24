@@ -6,6 +6,10 @@ class Books implements Media {
     private int markBook;
     private int genreBook;
 
+    Books () {
+
+    }
+
     Books (int nameBook, int markBook, int genreBook, int countPages) {
         this.nameBook = nameBook;
         this.markBook = markBook;
