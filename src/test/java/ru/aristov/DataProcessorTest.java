@@ -1,7 +1,6 @@
 package ru.aristov;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.List;
 
@@ -27,33 +26,56 @@ class DataProcessorTest {
 
     @Test
     void testGetFilterFilmsMethodsFirst() throws Exception {
-        List<FilterFilms> filterFilmsMethods = dataProcessor.getFilterFilms(2, 5,4);
-        List<FilterFilms> filterFilmsCorrect = List.of(
+        List<FilterFilms> filterFilmsMethodsOne = dataProcessor.getFilterFilms(2, 5,4);
+        List<FilterFilms> filterFilmsMethodsTwo = dataProcessor.getFilterFilms(1, 3,4);
+        List<FilterFilms> filterFilmsMethodsThree = dataProcessor.getFilterFilms(0, 2,3);
+        List<FilterFilms> filterFilmsCorrectOne = List.of(
                 new FilterFilms(8,2),
                 new FilterFilms(31,3),
                 new FilterFilms(12,3),
                 new FilterFilms(17,4)
         );
-        assertEquals(filterFilmsCorrect, filterFilmsMethods);
+        List<FilterFilms> filterFilmsCorrectTwo = List.of(
+                new FilterFilms(14,1),
+                new FilterFilms(25,1),
+                new FilterFilms(29,1),
+                new FilterFilms(8,2)
+        );
+        List<FilterFilms> filterFilmsCorrectThree = List.of(
+                new FilterFilms(14,1),
+                new FilterFilms(25,1),
+                new FilterFilms(29,1)
+        );
+        assertEquals(filterFilmsCorrectOne, filterFilmsMethodsOne);
+        assertEquals(filterFilmsCorrectTwo, filterFilmsMethodsTwo);
+        assertEquals(filterFilmsCorrectThree, filterFilmsMethodsThree);
     }
 
     @Test
-    void testGetFilterFilmsMethodsExeptionLimit() throws Exception {
+    void testGetFilterFilmsMethodsExeptionLimit() {
+        assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(2, 5,0));
         assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(2, 5,-1));
+        assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(2, 5,-6));
     }
 
     @Test
-    void testGetFilterFilmsMethodsExeptionMarks() throws Exception {
+    void testGetFilterFilmsMethodsExeptionMarks() {
         assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(5, 2,4));
+        assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(1, 0,3));
+        assertThrows(MyException.class, () -> dataProcessor.getFilterFilms(6, 4,1));
     }
 
     @Test
     void testSearchMarkMethodsFirst() throws Exception {
-        assertEquals("Фильм 31: оценка - 3, жанр - 4", dataProcessor.searchMark(3));
+        assertEquals(new FilterFilms(31,3), dataProcessor.searchMark(3));
+        assertEquals(new FilterFilms(17,4), dataProcessor.searchMark(4));
+        assertEquals(new FilterFilms(1,5), dataProcessor.searchMark(5));
     }
 
     @Test
-    void testSearchMarkMethodsExceptionMarkLess0() throws Exception {
+    void testSearchMarkMethodsExceptionMarkLess0() {
         assertThrows(MyException.class, () -> dataProcessor.searchMark(-1));
+        assertThrows(MyException.class, () -> dataProcessor.searchMark(-3));
+        assertThrows(MyException.class, () -> dataProcessor.searchMark(-5));
     }
 }
