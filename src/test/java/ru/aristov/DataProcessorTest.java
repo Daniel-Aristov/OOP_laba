@@ -1,5 +1,6 @@
 package ru.aristov;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,21 +9,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataProcessorTest {
-    private List<Movies> movies = List.of(
-            new Film(1,5,1),
-            new Film(5,6,1),
-            new Film(17,4,2),
-            new Film(31,3,4),
-            new Film(8,2,3),
-            new Film(14,1,4),
-            new Film(25,1,2),
-            new Film(4,5,1),
-            new Film(12,3,2),
-            new Film(29,1,5),
-            new Film(36,1,3),
-            new Film(18,5,5)
-    );
-    private DataProcessor<Film> dataProcessor = new DataProcessor(movies);
+    private DataProcessor<Film> dataProcessor;
+
+    @BeforeEach
+    void dataPrepare() {
+        List<Movies> movies = List.of(
+                new Film(1, 5, 1),
+                new Film(5, 6, 1),
+                new Film(17, 4, 2),
+                new Film(31, 3, 4),
+                new Film(8, 2, 3),
+                new Film(14, 1, 4),
+                new Film(25, 1, 2),
+                new Film(4, 5, 1),
+                new Film(12, 3, 2),
+                new Film(29, 1, 5),
+                new Film(36, 1, 3),
+                new Film(18, 5, 5)
+        );
+
+        dataProcessor = new DataProcessor(movies);
+    }
 
     @Test
     void testGetFilterFilmsMethodsFirst() throws Exception {
